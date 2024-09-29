@@ -29,27 +29,3 @@ import json
 text_data = {"extracted_text": extracted_text}
 with open('extracted_text.json', 'w') as json_file:
     json.dump(text_data, json_file)
-
-import streamlit as st
-from PIL import Image
-import pytesseract
-
-st.title('Hindi & English OCR Web App')
-
-uploaded_file = st.file_uploader("Choose an image...", type="jpg")
-
-keyword = st.text_input("Enter a keyword to search in the extracted text:")
-
-if uploaded_file:
-    image = Image.open(uploaded_file)
-    st.image(image, caption='Uploaded Image', use_column_width=True)
-
-    extracted_text = pytesseract.image_to_string(image, lang='hin+eng')
-    st.write("Extracted Text:")
-    st.text(extracted_text)
-
-    if keyword:
-        if keyword.lower() in extracted_text.lower():
-            st.write(f"Keyword '{keyword}' found!")
-        else:
-            st.write(f"Keyword '{keyword}' not found.")
